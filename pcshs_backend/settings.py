@@ -31,13 +31,6 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
     "http://127.0.0.1:8080"
 ]
-#CORS_ALLOW_HEADERS = list(default_headers) + [
-#    'X_CSRFTOKEN',
-#    'CSRF_COOKIE'
-#]
-#
-#CORS_ALLOW_CREDENTIALS = True
-#CSRF_HEADER_NAME = 'X_CSRFTOKEN'
 
 # Application definition
 
