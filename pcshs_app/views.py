@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import ECGFiles
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -148,7 +149,7 @@ def processHeartData(request):
     # Process Data.
     hrt_data = dataprocess(heart_data)
     result_hrtdata = datacompute(hrt_data)
-    
+
     result = ''
     if result_hrtdata == 1:
         result = 'Heart Disease Detected'
@@ -158,3 +159,10 @@ def processHeartData(request):
     return JsonResponse({
         'result': result
     })
+
+@csrf_exempt
+def processECGData(request):
+    file_store = request.FILES.items()
+    for key, value in file_store:
+        obj = ECGFiles.objects.create(file = value)
+    return HttpResponse('OK')
