@@ -160,9 +160,25 @@ def processHeartData(request):
         'result': result
     })
 
+def signalExtract():
+    import wfdb
+    import os
+
+    ECG_FILES = 'C:/Users/abhis/Documents/PCSHS_Backend/pcshs_backend/ecg_files'
+    files = os.listdir(ECG_FILES)
+    fname = files[0].split('.')[0]
+    record = wfdb.rdrecord(ECG_FILES + '/100')
+    return record.p_signal
+
 @csrf_exempt
 def processECGData(request):
     file_store = request.FILES.items()
     for key, value in file_store:
         obj = ECGFiles.objects.create(file = value)
-    return HttpResponse('OK')
+
+    p_signal = signalExtract()
+    p_signal = p_signal.tolist()
+
+    return JsonResponse({
+        'ecg_signal': p_signal
+    })
