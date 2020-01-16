@@ -87,8 +87,16 @@ def signalExtract():
     ECG_FILES = 'C:/Users/abhis/Documents/PCSHS_Backend/pcshs_backend/ecg_files'
     files = os.listdir(ECG_FILES)
     fname = files[0].split('.')[0]
-    record = wfdb.rdrecord(ECG_FILES + '/100')
+    record = wfdb.rdrecord(ECG_FILES + '/' + fname)
     return record.p_signal
+
+def removeFiles():
+    import os
+
+    ECG_FILES = 'C:/Users/abhis/Documents/PCSHS_Backend/pcshs_backend/ecg_files/'
+    files = os.listdir(ECG_FILES)
+    for file in files:
+        os.remove(ECG_FILES + file)
 
 @csrf_exempt
 def processECGData(request):
@@ -98,6 +106,7 @@ def processECGData(request):
 
     p_signal = signalExtract()
     p_signal = p_signal.tolist()
+    removeFiles()
 
     ml2 = list()
     v5 = list()
