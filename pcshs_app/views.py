@@ -84,7 +84,7 @@ def signalExtract():
     import wfdb
     import os
 
-    ECG_FILES = 'C:/Users/abhis/Documents/PCSHS_Backend/pcshs_backend/ecg_files'
+    ECG_FILES = 'C:/Users/abhis/Documents/BTCSE Project/pcshs_backend/ecg_files'
     files = os.listdir(ECG_FILES)
     fname = files[0].split('.')[0]
     record = wfdb.rdrecord(ECG_FILES + '/' + fname)
@@ -93,7 +93,7 @@ def signalExtract():
 def removeFiles():
     import os
 
-    ECG_FILES = 'C:/Users/abhis/Documents/PCSHS_Backend/pcshs_backend/ecg_files/'
+    ECG_FILES = 'C:/Users/abhis/Documents/BTCSE Project/pcshs_backend/ecg_files/'
     files = os.listdir(ECG_FILES)
     for file in files:
         os.remove(ECG_FILES + file)

@@ -12,7 +12,7 @@ def hdprediction(hrt_data):
     from torch.autograd import Variable
     torch.manual_seed(42)
 
-    FILE_PATH = 'C:/Users/abhis/Documents/PCSHS_Backend/pcshs_backend/pcshs_app/data/heart_data.csv'
+    FILE_PATH = 'C:/Users/abhis/Documents/BTCSE Project/pcshs_backend/pcshs_app/data/heart_data.csv'
     data = pd.read_csv(FILE_PATH)
 
     X = data.iloc[:, 0:13].values
