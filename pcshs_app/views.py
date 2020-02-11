@@ -81,14 +81,14 @@ def processHeartData(request):
     })
 
 def signalExtract():
-    import wfdb
     import os
+    import scipy.io as sio
 
-    ECG_FILES = 'C:/Users/abhis/Documents/BTCSE Project/pcshs_backend/ecg_files'
+    ECG_FILES = 'C:/Users/abhis/Documents/BTCSE Project/pcshs_backend/ecg_files/'
     files = os.listdir(ECG_FILES)
     fname = files[0].split('.')[0]
-    record = wfdb.rdrecord(ECG_FILES + '/' + fname)
-    return record.p_signal
+    record = sio.loadmat(ECG_FILES + fname + '.mat')
+    return record['val'][0]
 
 def removeFiles():
     import os
@@ -104,17 +104,10 @@ def processECGData(request):
     for key, value in file_store:
         obj = ECGFiles.objects.create(file = value)
 
-    p_signal = signalExtract()
-    p_signal = p_signal.tolist()
+    ecg_signal = signalExtract()
+    ecg_signal = ecg_signal.tolist()
     removeFiles()
 
-    ml2 = list()
-    v5 = list()
-    for values in p_signal:
-        ml2.append(values[0])
-        v5.append(values[1])
-
     return JsonResponse({
-        'ml2signal': ml2,
-        'v5signal': v5
+        'ecg_signal': ecg_signal
     })
