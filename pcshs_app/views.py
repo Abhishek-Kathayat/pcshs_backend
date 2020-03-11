@@ -3,6 +3,7 @@ from .models import ECGFiles
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from pcshs_app.ml_module.hdpred.heartdiseaseprediction import hdprediction
+from pcshs_app.ml_module.arrhythmia.evaler import predict
 import json
 
 # Create your views here.
@@ -80,6 +81,14 @@ def processHeartData(request):
         'result': result
     })
 
+def predictArrhythmia():
+    import os
+
+    ECG_FILES = 'C:/Users/abhis/Documents/BTCSE Project/pcshs_backend/ecg_files/'
+    files = os.listdir(ECG_FILES)
+    fname = files[0].split('.')[0]
+    return predict(ECG_FILES + fname)
+
 def signalExtract():
     import os
     import scipy.io as sio
@@ -106,8 +115,18 @@ def processECGData(request):
 
     ecg_signal = signalExtract()
     ecg_signal = ecg_signal.tolist()
+    arrhythmia_result = predictArrhythmia()
     removeFiles()
+    if arrhythmia_result == 'N':
+        arrhythmia_result = 'Normal Rhythm'
+    elif arrhythmia_result == 'A':
+        arrhythmia_result = 'Atrial Fibrillation'
+    elif arrhythmia_result == 'O':
+        arrhythmia_result = 'Other Abnormal Rhythm'
+    else:
+        arrhythmia_result = 'Record to Noisy'
 
     return JsonResponse({
-        'ecg_signal': ecg_signal
+        'ecg_signal': ecg_signal,
+        'arrhythmia_result': arrhythmia_result
     })
