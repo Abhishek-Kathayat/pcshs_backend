@@ -1,0 +1,6 @@
+pcshs_app/__pycache__
+pcshs_app/migrations/__pycache__
+pcshs_app/support_files/__pycache__
+pcshs_app/support_files/model
+pcshs_app/ml_module/arrhythmia/__pycache__
+pcshs_app/ml_module/hdpred/__pycache__
